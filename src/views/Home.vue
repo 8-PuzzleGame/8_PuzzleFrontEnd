@@ -319,10 +319,17 @@ export default {
       })
         .then((response) => response.text())
         .then((data) => {
-          sol = this.handleSolutionData(data);
-          console.log(sol);
-          let solObj = JSON.parse(sol);
+          let solObj = JSON.parse(data);
           console.log(solObj);
+
+          this.path = solObj.path;
+
+          this.info = `
+            Cost: ${solObj.cost}
+            Search Depth: ${solObj.search_depth}
+            Nodes Expanded: ${solObj.nodes_expanded}
+            Time: ${solObj.time}
+          `;
           // this.path = sol;
           // animation.path = sol;
           // animation.pathIndex = 0;
@@ -331,9 +338,6 @@ export default {
           // animationFlag = true;
         });
       return sol;
-    },
-    handleSolutionData(data) {
-      return data;
     },
   },
   watch: {

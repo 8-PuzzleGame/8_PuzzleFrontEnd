@@ -322,12 +322,10 @@ export default {
 
           this.path = solObj.path;
 
-          this.info = `
-            Cost: ${solObj.cost}
-            Search Depth: ${solObj.search_depth}
-            Nodes Expanded: ${solObj.nodes_expanded}
-            Time: ${solObj.time}
-          `;
+          this.info = `Cost: ${solObj.cost}
+Search Depth: ${solObj.search_depth}
+Nodes Expanded: ${solObj.nodes_expanded}
+Time: ${solObj.time}`;
           // this.path = sol;
           // animation.path = sol;
           // animation.pathIndex = 0;
@@ -422,7 +420,7 @@ export default {
 .algorithm-info {
   padding: 5px;
   width: 100%;
-  height: 100px;
+  height: 150px;
   font-size: 1.2em;
   font-family: Arial, Helvetica, sans-serif;
   resize: none;

@@ -141,7 +141,23 @@ function orderSections(list) {
 function checkWin() {
   return String(grid) == String([0, 1, 2, 3, 4, 5, 6, 7, 8]);
 }
-function puzzleSolution() {
+function puzzleSolution(state,goal,method_id) {
+    let a = {
+        state: state,
+        goal: goal,
+        method_id: method_id
+      };
+      fetch("http://localhost:8080//Solve", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(a)
+      })
+        .then(response => response.text())
+        .then(data => {
+          console.log(data);
+        });
   return ["Up", "Right", "Right", "Down", "Left", "Down", "Right"];
 }
 function flip(elements, changeFunc, vars) {

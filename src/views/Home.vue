@@ -190,6 +190,7 @@ export default {
       orderSections(grid);
       this.message = "";
       this.path = "";
+      this.info = "";
       this.endAnimation();
     },
     drawImg(e) {
@@ -259,7 +260,7 @@ export default {
         runFlag = false;
       } else {
         this.runAnimation();
-        this.solBtnStyle("Stop", "red");
+        this.solBtnStyle("Pause", "red");
         runFlag = true;
       }
     },

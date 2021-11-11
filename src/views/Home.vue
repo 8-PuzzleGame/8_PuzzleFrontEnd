@@ -36,7 +36,12 @@
         </div>
       </div>
       <div class="btns">
-        <div class="button1" @click="shuffleThePuzzle">Shuffle</div>
+        <input
+          class="custom_state"
+          v-model="custom_state"
+          placeholder="Custom State"
+        />
+        <div class="button1" @click="shuffleThePuzzle(false)">Shuffle</div>
         <div
           class="button1 btn-sol"
           :style="'background-color:' + solBtncolor"
@@ -47,7 +52,7 @@
       </div>
       <div class="sol-info">
         <div class="path" v-show="path" v-html="path"></div>
-        <div class="algorithm-info"></div>
+        <textarea class="algorithm-info" v-show="info" v-text="info"></textarea>
       </div>
       <div class="message" v-html="message"></div>
     </div>
@@ -175,6 +180,8 @@ export default {
       solBtn: "Solution",
       solBtncolor: "red",
       path: "",
+      info: "",
+      custom_state: "",
     };
   },
   mounted() {
@@ -226,16 +233,23 @@ export default {
       if (checkWin())
         this.message = `<span>Well Done <span style="font-size: 1.2em;">&#9745;</span></span>`;
     },
-    shuffleThePuzzle() {
+    shuffleThePuzzle(custom, state) {
       if (runFlag) return;
 
       this.init_puzzle();
-      grid = shuffleList(grid);
+      if (custom) grid = state;
+      else grid = shuffleList(grid);
+
       orderSections(grid);
       this.message = "";
     },
     solveThePuzzle() {
       if (!animationFlag) {
+        if (checkWin()) {
+          console.log("Already Solved");
+          return;
+        }
+
         const sol = puzzleSolution();
         this.path = sol;
         animation.path = sol;
@@ -291,6 +305,29 @@ export default {
       animationFlag = false;
     },
   },
+  watch: {
+    custom_state: function () {
+      const str = this.custom_state;
+      const nums = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+
+      let checkLen = str.length == 9;
+      let digitsOnly = /^[0-8]+$/.test(str);
+
+      if (!(checkLen && digitsOnly)) return;
+
+      for (let ch of str) nums[Number(ch)] = -1;
+
+      let sum = 0;
+      for (let n of nums) sum += Number(n);
+
+      let state = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+      if (sum == -9) {
+        for (let i = 0; i < str.length; i++)
+          state[i] = Number(str[i]) === 0 ? 8 : Number(str[i]) - 1;
+        this.shuffleThePuzzle(true, state);
+      }
+    },
+  },
 };
 </script>
 
@@ -328,6 +365,11 @@ export default {
   margin: 10px 10px 10px 0;
   user-select: none;
 }
+.custom_state {
+  display: block;
+  margin: 10px auto 0 auto;
+  padding: 5px;
+}
 .sol-info {
   margin: auto;
   width: 90%;
@@ -343,6 +385,16 @@ export default {
 }
 .algorithm {
   margin: 0 0px 5px 5px;
+}
+.algorithm-info {
+  padding: 5px;
+  width: 100%;
+  height: 100px;
+  font-size: 1.2em;
+  font-family: Arial, Helvetica, sans-serif;
+  resize: none;
+  color: var(--colorL1);
+  background-color: var(--colorD2);
 }
 @media (max-width: 600px) {
   .puzzle-comp-cont {

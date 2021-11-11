@@ -247,14 +247,12 @@ export default {
           console.log("Already Solved");
           return;
         }
-
         let state = "";
         for (let num of grid) state = state + String((num + 1) % 9);
 
         let method_id = 1;
         if (this.algorithm === "DFS") method_id = 2;
         else if (this.algorithm === "A_star") method_id = 3;
-
         this.puzzleSolution(state, "123456780", method_id);
       } else if (runFlag) {
         this.stopAnimation();

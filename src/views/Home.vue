@@ -320,18 +320,19 @@ export default {
           let solObj = JSON.parse(data);
           console.log(solObj);
 
-          this.path = (solObj.path.length == 0) ? "No Solution!" :solObj.path;
+          this.path = solObj.path.length == 0 ? "No Solution!" : solObj.path;
 
-          this.info = `Cost: ${solObj.cost}
-          Search Depth: ${solObj.search_depth}
-          Nodes Expanded: ${solObj.nodes_expanded}
-          Time: ${solObj.time}`;
-          // this.path = sol;
-          // animation.path = sol;
-          // animation.pathIndex = 0;
+          this.info =
+            `Cost: ${solObj.cost}\n` +
+            `Search Depth: ${solObj.search_depth}\n` +
+            `Nodes Expanded: ${solObj.nodes_expanded}\n` +
+            `Time: ${solObj.time}`;
 
-          // this.solBtnStyle("Run", "green");
-          // animationFlag = true;
+          animation.path = this.path;
+          animation.pathIndex = 0;
+
+          this.solBtnStyle("Run", "green");
+          animationFlag = true;
         });
       return sol;
     },

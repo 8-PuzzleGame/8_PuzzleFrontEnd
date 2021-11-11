@@ -141,29 +141,6 @@ function orderSections(list) {
 function checkWin() {
   return String(grid) == String([0, 1, 2, 3, 4, 5, 6, 7, 8]);
 }
-function puzzleSolution(state, goal, method_id) {
-  let sol = null;
-  let a = {
-    state: state,
-    goal: goal,
-    method_id: method_id,
-  };
-  fetch("http://localhost:8080//Solve", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(a),
-  })
-    .then((response) => response.text())
-    .then((data) => {
-      sol = handleSolutionData(data);
-    });
-  return sol;
-}
-function handleSolutionData(data) {
-  return data;
-}
 
 function flip(elements, changeFunc, vars) {
   elements = gsap.utils.toArray(elements);
@@ -271,21 +248,14 @@ export default {
           return;
         }
 
-        let state = ""
-        for (let num of grid) state = state + String(num + 1);
+        let state = "";
+        for (let num of grid) state = state + String((num + 1) % 9);
 
         let method_id = 1;
         if (this.algorithm === "DFS") method_id = 2;
         else if (this.algorithm === "A_star") method_id = 3;
 
-        const sol = puzzleSolution(state, "123456780", method_id);
-        console.log(sol);
-        // this.path = sol;
-        // animation.path = sol;
-        // animation.pathIndex = 0;
-
-        // this.solBtnStyle("Run", "green");
-        // animationFlag = true;
+        this.puzzleSolution(state, "123456780", method_id);
       } else if (runFlag) {
         this.stopAnimation();
         this.solBtnStyle("Run", "green");
@@ -332,6 +302,38 @@ export default {
       animation.path = [];
       runFlag = false;
       animationFlag = false;
+    },
+    puzzleSolution(state, goal, method_id) {
+      let sol = null;
+      let a = {
+        state: state,
+        goal: goal,
+        method_id: method_id,
+      };
+      fetch("http://localhost:8080//Solve", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(a),
+      })
+        .then((response) => response.text())
+        .then((data) => {
+          sol = this.handleSolutionData(data);
+          console.log(sol);
+          let solObj = JSON.parse(sol);
+          console.log(solObj);
+          // this.path = sol;
+          // animation.path = sol;
+          // animation.pathIndex = 0;
+
+          // this.solBtnStyle("Run", "green");
+          // animationFlag = true;
+        });
+      return sol;
+    },
+    handleSolutionData(data) {
+      return data;
     },
   },
   watch: {

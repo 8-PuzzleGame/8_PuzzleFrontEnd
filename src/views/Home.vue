@@ -320,12 +320,12 @@ export default {
           let solObj = JSON.parse(data);
           console.log(solObj);
 
-          this.path = solObj.path;
+          this.path = (solObj.path.length == 0) ? "No Solution!" :solObj.path;
 
           this.info = `Cost: ${solObj.cost}
-Search Depth: ${solObj.search_depth}
-Nodes Expanded: ${solObj.nodes_expanded}
-Time: ${solObj.time}`;
+          Search Depth: ${solObj.search_depth}
+          Nodes Expanded: ${solObj.nodes_expanded}
+          Time: ${solObj.time}`;
           // this.path = sol;
           // animation.path = sol;
           // animation.pathIndex = 0;
@@ -420,7 +420,7 @@ Time: ${solObj.time}`;
 .algorithm-info {
   padding: 5px;
   width: 100%;
-  height: 150px;
+  height: 100px;
   font-size: 1.2em;
   font-family: Arial, Helvetica, sans-serif;
   resize: none;

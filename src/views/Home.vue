@@ -140,7 +140,7 @@ function puzzleSolution(state,goal,method_id) {
     let a = {
         state: state,
         goal: goal,
-        name: method_id
+        method_id: method_id
       };
       fetch("http://localhost:8080//Solve", {
         method: "POST",

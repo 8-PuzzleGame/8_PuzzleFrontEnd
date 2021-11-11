@@ -271,15 +271,14 @@ export default {
           return;
         }
 
-        let state = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-        for (let num of grid) state = num + 1;
-        let goal = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+        let state = ""
+        for (let num of grid) state = state + String(num + 1);
 
         let method_id = 1;
         if (this.algorithm === "DFS") method_id = 2;
         else if (this.algorithm === "A_star") method_id = 3;
 
-        const sol = puzzleSolution(state, goal, method_id);
+        const sol = puzzleSolution(state, "123456780", method_id);
         console.log(sol);
         // this.path = sol;
         // animation.path = sol;

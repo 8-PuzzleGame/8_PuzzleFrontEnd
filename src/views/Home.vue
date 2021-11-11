@@ -124,10 +124,9 @@ function isSolvable(list) {
 }
 function shuffleList(list) {
   do {
-    // for (let i = list.length - 1; i > 0; i--) {
-    //   swap(list, i, Math.floor(Math.random() * (i + 1)));
-    // }
-    list = [3, 0, 1, 8, 5, 2, 6, 4, 7];
+    for (let i = list.length - 1; i > 0; i--) {
+      swap(list, i, Math.floor(Math.random() * (i + 1)));
+    }
   } while (!isSolvable(list));
   return list;
 }
@@ -326,7 +325,7 @@ export default {
             `Cost: ${solObj.cost}\n` +
             `Search Depth: ${solObj.search_depth}\n` +
             `Nodes Expanded: ${solObj.nodes_expanded}\n` +
-            `Time: ${solObj.time}`;
+            `Time: ${solObj.time} ms`;
 
           animation.path = this.path;
           animation.pathIndex = 0;

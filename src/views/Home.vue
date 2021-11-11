@@ -141,25 +141,30 @@ function orderSections(list) {
 function checkWin() {
   return String(grid) == String([0, 1, 2, 3, 4, 5, 6, 7, 8]);
 }
-function puzzleSolution(state,goal,method_id) {
-    let a = {
-        state: state,
-        goal: goal,
-        method_id: method_id
-      };
-      fetch("http://localhost:8080//Solve", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(a)
-      })
-        .then(response => response.text())
-        .then(data => {
-          console.log(data);
-        });
-  return ["Up", "Right", "Right", "Down", "Left", "Down", "Right"];
+function puzzleSolution(state, goal, method_id) {
+  let sol = null;
+  let a = {
+    state: state,
+    goal: goal,
+    method_id: method_id,
+  };
+  fetch("http://localhost:8080//Solve", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(a),
+  })
+    .then((response) => response.text())
+    .then((data) => {
+      sol = handleSolutionData(data);
+    });
+  return sol;
 }
+function handleSolutionData(data) {
+  return data;
+}
+
 function flip(elements, changeFunc, vars) {
   elements = gsap.utils.toArray(elements);
   vars = vars || {};
@@ -266,13 +271,22 @@ export default {
           return;
         }
 
-        const sol = puzzleSolution();
-        this.path = sol;
-        animation.path = sol;
-        animation.pathIndex = 0;
+        let state = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+        for (let num of grid) state = num + 1;
+        let goal = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
-        this.solBtnStyle("Run", "green");
-        animationFlag = true;
+        let method_id = 1;
+        if (this.algorithm === "DFS") method_id = 2;
+        else if (this.algorithm === "A_star") method_id = 3;
+
+        const sol = puzzleSolution(state, goal, method_id);
+        console.log(sol);
+        // this.path = sol;
+        // animation.path = sol;
+        // animation.pathIndex = 0;
+
+        // this.solBtnStyle("Run", "green");
+        // animationFlag = true;
       } else if (runFlag) {
         this.stopAnimation();
         this.solBtnStyle("Run", "green");

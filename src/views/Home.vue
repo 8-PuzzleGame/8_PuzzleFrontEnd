@@ -14,7 +14,8 @@
         <div>
           <label for="algorithm">Algorithm:</label>
           <select class="algorithm" v-model="algorithm">
-            <option value="A_star">A*</option>
+            <option value="A_star">A* h1</option>
+            <option value="A_starh2">A* h2</option>
             <option value="BFS">BFS</option>
             <option value="DFS">DFS</option>
           </select>
@@ -247,6 +248,7 @@ export default {
         let method_id = 1;
         if (this.algorithm === "DFS") method_id = 2;
         else if (this.algorithm === "A_star") method_id = 3;
+        else if (this.algorithm === "A_starh2") method_id = 4;
         this.puzzleSolution(state, "123456780", method_id);
       } else if (runFlag) {
         this.stopAnimation();

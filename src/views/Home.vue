@@ -52,7 +52,12 @@
       </div>
       <div class="sol-info">
         <div class="path" v-show="path" v-html="path"></div>
-        <textarea class="algorithm-info" v-show="info" v-text="info"></textarea>
+        <textarea
+          readonly
+          class="algorithm-info"
+          v-show="info"
+          v-text="info"
+        ></textarea>
       </div>
       <div class="message" v-html="message"></div>
     </div>
@@ -60,16 +65,6 @@
 </template>
 
 <script>
-/*
-example is
-list <= [3, 0, 1, 8, 5, 2, 6, 4, 7]
-puzzle <= [4, 1, 2, 0, 6, 3, 7, 5, 8]
-path <= [Up, Right, Right, Down, Left, Down, Right]
-run
-\u25B6
-stop
-\u25FC
-*/
 import { gsap } from "gsap";
 
 const cnvL = 600,
@@ -140,7 +135,6 @@ function orderSections(list) {
 function checkWin() {
   return String(grid) == String([0, 1, 2, 3, 4, 5, 6, 7, 8]);
 }
-
 function flip(elements, changeFunc, vars) {
   elements = gsap.utils.toArray(elements);
   vars = vars || {};
@@ -175,7 +169,7 @@ export default {
       show_numbers: false,
       algorithm: "A_star",
       solBtn: "Solution",
-      solBtncolor: "red",
+      solBtncolor: "darkcyan",
       path: "",
       info: "",
       custom_state: "",
@@ -296,7 +290,7 @@ export default {
     },
     endAnimation() {
       this.stopAnimation();
-      this.solBtnStyle("Solution", "red");
+      this.solBtnStyle("Solution", "darkcyan");
       animation.path = [];
       runFlag = false;
       animationFlag = false;
@@ -318,7 +312,6 @@ export default {
         .then((response) => response.text())
         .then((data) => {
           let solObj = JSON.parse(data);
-          console.log(solObj);
 
           this.path = solObj.path.length == 0 ? "No Solution!" : solObj.path;
 
